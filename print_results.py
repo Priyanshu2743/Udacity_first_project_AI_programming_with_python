@@ -62,36 +62,25 @@ def print_results(results_dic, results_stats_dic, model,
     Returns:
            None - simply printing results.
     """    
-    print("\n\n*** Results Summary for CNN Model Architecture",model.upper(), "***")
-    print("{:20}: {:3d}".format('N Images', results_stats_dic['n_images']))
-    print("{:20}: {:3d}".format('N Dog Images', results_stats_dic['n_dogs_img']))
-    print("{:20}: {:3d}".format('N Not-Dog Images', results_stats_dic['n_notdogs_img']))
-    print(" ")
+    print(f"\n\n*** Summary of Results for Convolution Neural Network Model Architecture {model.upper()} ***")
+    print(f"{'N Images':20}: {results_stats_dic['n_images']:3d}")
+    print(f"{'N Dog Images':20}: {results_stats_dic['n_dogs_img']:3d}")
+    print(f"{'N Not-Dog Images':20}: {results_stats_dic['n_notdogs_img']:3d} /n")
+    print(f"{'N Match':20}: {results_stats_dic['n_match']:3d}")
+    print(f"{'N Not Match':20}: {results_stats_dic['n_notmatch']:3d}")
+    
+    for stat_key, stat_value in results_stats_dic.items():
+        if stat_key.startswith("p"):
+            print(f"{stat_key:20}: {stat_value:5.1f}")
 
-    for key in results_stats_dic:
-        if key[0] == "p":
-            print("{:20}: {:5.1f}".format(key, results_stats_dic[key]))
-        
-    if (print_incorrect_dogs and 
-        ( (results_stats_dic['n_correct_dogs'] + results_stats_dic['n_correct_notdogs'])
-          != results_stats_dic['n_images'] ) 
-       ):
-        print("\nINCORRECT Dog/NOT Dog Assignments:") 
-        for key in results_dic:
-             if sum(results_dic[key][3:]) == 1:
-                print("Real: {:>26}   Classifier: {:>30}".format(results_dic[key][0], results_dic[key][1]))
-                
-    if (print_incorrect_breed and (results_stats_dic['n_correct_dogs'] != results_stats_dic['n_correct_breed']) 
-       ):
+    if print_incorrect_dogs and (results_stats_dic['n_correct_dogs'] + results_stats_dic['n_correct_notdogs']) != results_stats_dic['n_images']:
+        print("\nINCORRECT Dog/NOT Dog Assignments:")
+        for result_key, result_value in results_dic.items():
+            if sum(result_value[3:]) == 1:
+                print(f"Real: {result_value[0]:>26}   Classifier: {result_value[1]:>30}")
+
+    if print_incorrect_breed and results_stats_dic['n_correct_dogs'] != results_stats_dic['n_correct_breed']:
         print("\nINCORRECT Dog Breed Assignment:")
-        for key in results_dic:
-            if ( sum(results_dic[key][3:]) == 2 and
-                results_dic[key][2] == 0 ):
-                print("Real: {:>26}   Classifier: {:>30}".format(results_dic[key][0], results_dic[key][1]))
-            
-    
-    
-    
-   
-    
-                
+        for key, value in results_dic.items():
+            if sum(value[3:]) == 2 and value[2] == 0:
+                print(f"Real: {value[0]:>26}   Classifier: {value[1]:>30}")

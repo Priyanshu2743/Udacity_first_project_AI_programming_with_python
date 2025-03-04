@@ -3,7 +3,7 @@
 # */AIPND-revision/intropyproject-classify-pet-images/get_input_args.py
 #                                                                             
 # PROGRAMMER: Priyanshu Mittal
-# DATE CREATED: 12 February, 2025                                  
+# DATE CREATED: 12 February, 2025                                                                    
 # REVISED DATE: 13 February, 2025     
 # PURPOSE: Create a function that retrieves the following 3 command line inputs 
 #          from the user using the Argparse Python module. If the user fails to 
@@ -14,6 +14,7 @@
 #     3. Text File with Dog Names as --dogfile with default value 'dognames.txt'
 #
 ##
+# cmd_parser = get_input_args()
 # Imports python modules
 import argparse
 
@@ -21,6 +22,7 @@ import argparse
 #       in the return statement with parser.parse_args() parsed argument 
 #       collection that you created with this function
 # 
+#    Priyanshu Mittal Coded this function
 def get_input_args():
     """
     Retrieves and parses the 3 command line arguments provided by the user when
@@ -40,22 +42,12 @@ def get_input_args():
     """
     # Create Parse using ArgumentParser
     parser = argparse.ArgumentParser()
-    
     # Create 3 command line arguments as mentioned above using add_argument() from ArguementParser method
-    # Argument 1
-    parser.add_argument('--dir', type = str, default = 'pet_images/', help = 'path to the directory of pet images')  
-    # Argument 2
-    parser.add_argument('--arch', type = str, default = 'vgg', help = 'enter the architecture')
-          
-    parser.add_argument('--dogfile', type = str, default = 'dognames.txt', help = 'the file which contains dognames')
-    
-#   Assigns variable in_args to parse_args()
-#   in_args = parser.parse_args()
-
-#   Accesses values of Argument 1 by printing it
-#   print("Argument 1:", in_args.dir)
-#   print("Argument 2:", in_args.arch)
-#   print("Argument 3:", in_args.dogfile)
-        
-#   Replace None with parser.parse_args() parsed argument collection that you created with this function 
+    # 1st Argument
+    parser.add_argument('--dir', type = str, default = 'pet_images/', help = 'This is the Path to the Home_Directory of Pet Images')  
+    # 2nd Argument
+    parser.add_argument('--arch', type = str, default = 'vgg', help = 'CNN model architecture to use')
+    # 3rd Argument
+    parser.add_argument('--dogfile', type=str, default='dognames.txt', help='The file which will contain list of valid and correct dognames')
+    # Replace None with parser.parse_args() parsed argument collection that you created with this function 
     return parser.parse_args()

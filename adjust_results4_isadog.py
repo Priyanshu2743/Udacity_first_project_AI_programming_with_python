@@ -66,40 +66,35 @@ def adjust_results4_isadog(results_dic, dogfile):
                maltese) (string - indicates text file's filename)
     Returns:
            None - results_dic is mutable data type so no return needed.
-    """  
+    """           
+    results_dict = results_dic
+    dogsfile = dogfile
+    dognames_dictionary = dict()
     
-    dognames_dic = dict()
-    
-    with open(dogfile, "r") as infile:
-        line = infile.readline()
-        while line != "":
-            line = line.rstrip()
-            if line not in dognames_dic:
-                dognames_dic[line] = 1
-            line = infile.readline()
-     
-    for key in results_dic:
-        if results_dic[key][0] in dognames_dic:
-            if results_dic[key][1] in dognames_dic:
-                results_dic[key].extend((1, 1))
+    with open(dogsfile, "r") as f:
+        for line in f:
+            cleaned_line = line.lower().strip()
+            if cleaned_line not in dognames_dictionary:
+                dognames_dictionary[cleaned_line] = 1
             else:
-                results_dic[key].extend((1, 0))
+                print(f"** Warning: Line = {cleaned_line} already exists in the results having a value = {dognames_dictionary[cleaned_line]}")
+
+    for key, value in results_dict.items():
+        is_first_dog = value[0] in dognames_dictionary
+        is_second_dog = value[1] in dognames_dictionary
+    
+        if is_first_dog and is_second_dog:
+            value.extend((1, 1))
+        elif is_first_dog:
+            value.extend((1, 0))
+        elif is_second_dog:
+            value.extend((0, 1))
         else:
-            if results_dic[key][1] in dognames_dic:
-                results_dic[key].extend((0, 1))
-            else:
-                results_dic[key].extend((0, 0))
+            value.extend((0, 0))
+                
+    return None
                 
                 
                 
-                
-                
-            
-            
-                
-                
-                
-            
                 
         
-

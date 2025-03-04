@@ -3,7 +3,7 @@
 # */AIPND-revision/intropyproject-classify-pet-images/get_pet_labels.py
 #                                                                             
 # PROGRAMMER: Priyanshu Mittal
-# DATE CREATED: 12 February, 2025                                  
+# DATE CREATED: 12 February, 2025                                 
 # REVISED DATE: 13 February, 2025
 # PURPOSE: Create the function get_pet_labels that creates the pet labels from 
 #          the image's filename. This function inputs: 
@@ -40,40 +40,19 @@ def get_pet_labels(image_dir):
       List. The list contains for following item:
          index 0 = pet image label (string)
     """
-#   Replace None with the results_dic dictionary that you created with this function
 
-#   Retrieve the filenames from folder pet_images/
     filename_list = listdir(image_dir)
-
-#   Print 10 of the filenames from folder pet_images/
-#   print("\nPrints 10 filenames from folder pet_images/")
-#   for idx in range(0, 10, 1):
-#     print("{:2d} file: {:>25}".format(idx + 1, filename_list[idx]) )
-        
-#   Creates empty dictionary named results_dic
     results_dic = dict()
+    petlabel_list = []
 
-#   Determines number of items in dictionary items_in_dic = len(filename_list)
-#   print("\nEmpty Dictionary results_dic - n items=", items_in_dic)
-
-#   Adds new key-value pairs to dictionary ONLY when key doesn't already exist. This dictionary's value is a List that contains only one item - the pet image label
     for idx in range(0, len(filename_list), 1):
-        if filename_list[idx][0] != ".":
+        if not filename_list[idx].startswith("."):
             pet_label = ""
             if filename_list[idx] not in results_dic:
                 pet_label = filename_list[idx].lower().split("_")
-                pet_name = ""
-                for word in pet_label:
-                   if word.isalpha():
-                      pet_name += word + " "
-                pet_name = pet_name.strip()
-                results_dic[filename_list[idx]] = [pet_name]   
+                pet_name = " ".join([word for word in pet_label if word.isalpha()])
+                results_dic[filename_list[idx]] = [pet_name.strip()]
             else:
-                print("** Warning: Key=", filenames[idx], "already exists in results_dic with value =", 
-                results_dic[filenames[idx]])
-
-#   Iterating through a dictionary printing all keys & their associated values
-#   print("\nPrinting all key-value pairs in dictionary results_dic:")
-#   for key in results_dic:
-#     print("Filename=", key, "   Pet Label=", results_dic[key][0])
+                print(f"** Warning: Key={filename_list[idx]} already exists in results_dic with value={results_dic[filename_list[idx]]}")
+    
     return results_dic

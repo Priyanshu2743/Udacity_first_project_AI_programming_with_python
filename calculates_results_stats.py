@@ -3,8 +3,8 @@
 # */AIPND-revision/intropyproject-classify-pet-images/calculates_results_stats.py
 #                                                                             
 # PROGRAMMER: Priyanshu Mittal
-# DATE CREATED: 12 February, 2025                                  
-# REVISED DATE: 13 February, 2025
+# DATE CREATED:  12 February, 2025                                                                  
+# REVISED DATE:  13 February, 2025
 # PURPOSE: Create a function calculates_results_stats that calculates the 
 #          statistics of the results of the programrun using the classifier's model 
 #          architecture to classify the images. This function will use the 
@@ -70,46 +70,44 @@ def calculates_results_stats(results_dic):
     """        
     # Replace None with the results_stats_dic dictionary that you created with 
     # this function 
-    results_stats_dic = dict()
-    results_stats_dic['n_dogs_img'] = 0
-    results_stats_dic['n_match'] = 0
-    results_stats_dic['n_correct_dogs'] = 0
-    results_stats_dic['n_correct_notdogs'] = 0
-    results_stats_dic['n_correct_breed'] = 0
+    stats = {
+        'n_dogs_img': 0,
+        'n_match': 0,
+        'n_correct_dogs': 0,
+        'n_correct_notdogs': 0,
+        'n_correct_breed': 0
+    }
     
-    for key in results_dic:
-        if results_dic[key][2] == 1:
-            results_stats_dic['n_match'] += 1
-            
-        if sum(results_dic[key][2:]) == 3:
-            results_stats_dic['n_correct_breed'] += 1
-                          
-        if results_dic[key][3] == 1:
-            results_stats_dic['n_dogs_img'] += 1                          
-            if results_dic[key][4] == 1:
-                results_stats_dic['n_correct_dogs'] += 1
-        else:
-            if results_dic[key][4] == 0:
-                results_stats_dic['n_correct_notdogs'] += 1
-   
-    results_stats_dic['n_images'] = len(results_dic)
-                         
-    results_stats_dic['n_notdogs_img'] = (results_stats_dic['n_images'] - 
-                                      results_stats_dic['n_dogs_img']) 
+    total_images = len(results_dic)
     
-    results_stats_dic['pct_match'] = (results_stats_dic['n_match'] / 
-                                  results_stats_dic['n_images'])*100.0
-                          
-    results_stats_dic['pct_correct_dogs'] = (results_stats_dic['n_correct_dogs'] / 
-                                         results_stats_dic['n_dogs_img'])*100.0 
-                          
-    results_stats_dic['pct_correct_breed'] = (results_stats_dic['n_correct_breed'] / 
-                                          results_stats_dic['n_dogs_img'])*100.0
-                          
-    if results_stats_dic['n_notdogs_img'] > 0:
-        results_stats_dic['pct_correct_notdogs'] = (results_stats_dic['n_correct_notdogs'] /
-                                                results_stats_dic['n_notdogs_img'])*100.0
-    else:
-        results_stats_dic['pct_correct_notdogs'] = 0.0
+    for key, value in results_dic.items():
+        if value[2] == 1:
+            stats['n_match'] = stats['n_match'] + 1
         
-    return results_stats_dic
+        if sum(value[2:]) == 3:
+            stats['n_correct_breed'] += 1
+        
+        if value[3] == 1:
+            stats['n_dogs_img'] += 1
+            if value[4] == 1:
+                stats['n_correct_dogs'] += 1
+        else:
+            if value[4] == 0:
+                stats['n_correct_notdogs'] = stats['n_correct_notdogs'] + 1
+    
+    stats['n_images'] = total_images
+    stats['n_notdogs_img'] = total_images - stats['n_dogs_img']
+    
+    stats['pct_match'] = (stats['n_match'] / total_images) * 10.0
+    stats['pct_match'] = (stats['n_match'] / total_images) * 10.0
+    stats['pct_correct_dogs'] = (stats['n_correct_dogs'] / stats['n_dogs_img']) * 10.0
+    stats['pct_correct_dogs'] = (stats['n_correct_dogs'] / stats['n_dogs_img']) * 10.0
+    stats['pct_correct_breed'] = (stats['n_correct_breed'] / stats['n_dogs_img']) * 10.0
+    stats['pct_correct_breed'] = (stats['n_correct_breed'] / stats['n_dogs_img']) * 10.0
+    
+    if stats['n_notdogs_img'] > 0:
+        stats['pct_correct_notdogs'] = (stats['n_correct_notdogs'] / stats['n_notdogs_img']) * 100.0
+    else:
+        stats['pct_correct_notdogs'] = 0.0
+    
+    return stats

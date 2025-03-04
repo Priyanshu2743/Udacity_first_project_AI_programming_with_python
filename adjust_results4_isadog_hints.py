@@ -152,4 +152,3 @@ def adjust_results4_isadog(results_dic, dogfile):
             # appends (0, 0) because both labels aren't dogs
             else:
                 pass
-    

@@ -65,18 +65,10 @@ def classify_images(images_dir, results_dic, model):
      Returns:
            None - results_dic is mutable data type so no return needed.         
     """       
-    for key in results_dic:
-      model_label = classifier(images_dir + key, model)
-      model_label = model_label.lower().strip()
-      truth = results_dic[key][0]
-      if truth in model_label:
-        results_dic[key].extend((model_label, 1))
-      else:
-        results_dic[key].extend((model_label, 0))
-                                
-
-                    
-               
-
-        
-        
+    for file_name in results_dic:
+      classifier_label = classifier(images_dir + file_name, model)
+      formatted_label = classifier_label.lower().strip()
+      pet_label = results_dic[file_name][0] 
+      match = 1 if pet_label in formatted_label else 0
+      results_dic[file_name].extend([formatted_label, match])
+    
